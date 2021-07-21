@@ -10,5 +10,6 @@ const HttpCode = {
   INTERNAL_SERVER_ERROR: 500,
 };
 
-const BASE_URL = "http://localhost:3000/api/";
+const BASE_URL = `http://localhost:${process.env.PORT || 3000}/api/`;
+
 export { HttpCode, BASE_URL };

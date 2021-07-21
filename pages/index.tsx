@@ -150,6 +150,7 @@ export default function Home(props: IProps) {
 
 export async function getServerSideProps() {
   try {
+    console.log(`PORT=${process.env.port}`);
     const todo: IRequest = await axios.get(`todo`);
     const data = todo.data;
     return { props: data };
