@@ -15,12 +15,13 @@ interface ITodoCard {
 
 interface IProps {
   todoArray: ITodoCard[];
-  onClick: (id: string, isCompleted: boolean) => void;
+  onClickComplete: (id: string, isCompleted: boolean) => void;
   onDelete: (id: string) => void;
+  onClickEdit: (id: string) => void;
 }
 
 export default function TodoList(props: IProps) {
-  const { todoArray, onClick, onDelete } = props;
+  const { todoArray, onClickComplete, onDelete, onClickEdit } = props;
 
   return (
     <ul>
@@ -45,7 +46,7 @@ export default function TodoList(props: IProps) {
                   name="toggle"
                   id="toggle"
                   defaultChecked={todo.isComplete}
-                  onClick={() => onClick(todo._id, todo.isComplete)}
+                  onClick={() => onClickComplete(todo._id, todo.isComplete)}
                   className="toggle-checkbox absolute block w-6 h-6 rounded-full 
                  bg-white border-4 appearance-none cursor-pointer"
                 />
@@ -73,7 +74,7 @@ export default function TodoList(props: IProps) {
                 text-gray-700 bg-white hover:bg-gray-50"
                 // focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
                 onClick={() => {
-                  onDelete(todo._id);
+                  onClickEdit(todo._id);
                 }}
               >
                 Edit

@@ -1,24 +1,26 @@
-import React, { useState } from "react";
-import PrimatyButton from "../PrimaryButton";
+import React, { useState, useEffect } from "react";
 
 type handleFn = (evt: React.ChangeEvent) => void;
 
-interface IFormValue {
-  body: string;
-  value: string;
-}
-
-type submitFn = (value: IFormValue) => void;
-
 interface IProps {
-  handleFn: (value: IFormValue) => void;
+  onSubmit: (todoName: string, body: string, id?: string) => void;
+  edit: {
+    id: string;
+    todoName: string;
+    body: string;
+    isEdit: boolean;
+  };
 }
 
-export default function TodoAddForm({ onSubmit }: any) {
-  // дописать определения типа пропсов !!!!!!
+export default function TodoAddForm(props: IProps) {
+  const { onSubmit, edit } = props;
+
   const [todoName, setTodoName] = useState("");
   const [todoBody, setTodoBody] = useState("");
-
+  useEffect(() => {
+    setTodoName(edit.todoName);
+    setTodoBody(edit.body);
+  }, [edit.body, edit.todoName]);
   const handleChange: handleFn = (e) => {
     const target = e.target as HTMLInputElement;
     switch (target.name) {
@@ -38,7 +40,11 @@ export default function TodoAddForm({ onSubmit }: any) {
     if (todoName === "" || todoBody === "") {
       return;
     }
-    onSubmit(todoName, todoBody);
+    if (edit.isEdit) {
+      onSubmit(todoName, todoBody, edit.id);
+    } else {
+      onSubmit(todoName, todoBody);
+    }
     setTodoBody("");
     setTodoName("");
   };
@@ -46,7 +52,6 @@ export default function TodoAddForm({ onSubmit }: any) {
   return (
     <form onSubmit={handleFormSubmit}>
       <label className="block text-sm font-medium text-gray-700">
-        Todo name
         <input
           name="todo-name"
           type="text"
@@ -57,8 +62,8 @@ export default function TodoAddForm({ onSubmit }: any) {
           onChange={(e) => handleChange(e)}
         />
       </label>
+
       <label>
-        Todo body
         <textarea
           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 
          block w-full sm:text-sm border-gray-300 rounded-md"
@@ -68,12 +73,13 @@ export default function TodoAddForm({ onSubmit }: any) {
           onChange={(e) => handleChange(e)}
         />
       </label>
+
       <button
         className="inline-flex items-center px-2.5 py-1.5 border border-transparent 
       text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 
       focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       >
-        Submit
+        {edit.isEdit ? "Edit Todo" : "Add Todo"}
       </button>
     </form>
   );
