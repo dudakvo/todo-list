@@ -26,12 +26,6 @@ async function dbConnect() {
 
   if (!cached.promise) {
     const opts = {
-      // useNewUrlParser: true,
-      // useUnifiedTopology: true,
-      // bufferCommands: false,
-      // bufferMaxEntries: 0,
-      // useFindAndModify: false,
-      // useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
