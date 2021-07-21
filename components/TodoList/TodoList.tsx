@@ -54,13 +54,12 @@ export default function TodoList(props: IProps) {
             </div>
 
             <TodoCard todo={todo} />
-            <div>
+            <div className="w-3/5 mx-auto px-2 flex ">
               <button
                 type="button"
-                className="inline-flex items-center px-2.5 py-1.5 border border-gray-300
+                className="inline-flex items-center px-2.5 py-1.5 mx-auto border border-gray-300
                shadow-sm text-xs font-medium rounded
                 text-gray-700 bg-white hover:bg-gray-50"
-                // focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
                 onClick={() => {
                   onDelete(todo._id);
                 }}
@@ -69,10 +68,9 @@ export default function TodoList(props: IProps) {
               </button>
               <button
                 type="button"
-                className="inline-flex items-center px-2.5 py-1.5 border border-gray-300
+                className="inline-flex items-center px-2.5 py-1.5 mx-auto border border-gray-300
                shadow-sm text-xs font-medium rounded
                 text-gray-700 bg-white hover:bg-gray-50"
-                // focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
                 onClick={() => {
                   onClickEdit(todo._id);
                 }}

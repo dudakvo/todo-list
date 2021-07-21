@@ -6,8 +6,6 @@ import TodoList from "../components/TodoList";
 import Filter from "../components/Filter";
 import TodoAddForm from "../components/TodoAddForm";
 
-// import TodoHeader from "../components/TodoHeader";
-
 //=================================== typescript types ===========================
 interface ITodoBody {
   _id: string;
@@ -26,6 +24,10 @@ interface IRequest {
 
 interface IProps {
   data: ITodoBody[];
+}
+
+interface IAxios {
+  data: IRequest;
 }
 //================================================================================
 
@@ -53,11 +55,10 @@ export default function Home(props: IProps) {
   async function onAdd(todoName: string, body: string, id?: string) {
     if (!isEdit.isEdit) {
       const todoCreateResult = await axios.post("todo", {
-        // типи
         todoName,
         body,
       });
-      setTodoList((prevState) => [...prevState, todoCreateResult.data.data]); // Дописати визначення типів
+      setTodoList((prevState) => [...prevState, todoCreateResult.data.data]);
     } else {
       const todoEditResult = await axios.patch(`todo/${isEdit.id}`, {
         todoName,
@@ -132,7 +133,6 @@ export default function Home(props: IProps) {
     <>
       {/* ============================================================================== */}
       <div className="contaier w-9/12 mx-auto my-4">
-        {/* <TodoHeader onAdd={onAdd} /> */}
         <div className="sticky top-0 z-50 bg-white bg-opacity-100">
           <TodoAddForm onSubmit={onAdd} edit={isEdit} />
           <Filter handleFilter={onChange} filter={filter} />

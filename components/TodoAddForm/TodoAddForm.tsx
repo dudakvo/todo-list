@@ -73,14 +73,15 @@ export default function TodoAddForm(props: IProps) {
           onChange={(e) => handleChange(e)}
         />
       </label>
-
-      <button
-        className="inline-flex items-center px-2.5 py-1.5 border border-transparent 
+      <div className=" flex ">
+        <button
+          className="inline-block items-center px-2.5 py-1.5 mx-auto my-2 border border-transparent 
       text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 
       focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      >
-        {edit.isEdit ? "Edit Todo" : "Add Todo"}
-      </button>
+        >
+          {edit.isEdit ? "Edit Todo" : "Add Todo"}
+        </button>
+      </div>
     </form>
   );
 }
