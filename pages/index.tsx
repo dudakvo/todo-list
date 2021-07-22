@@ -49,7 +49,7 @@ export default function Home(props: IProps) {
 
   const [browserBaseURL, setBrowserBaseURL] = useState(``);
   useEffect(() => {
-    setBrowserBaseURL("https://todo-vdo-app.herokuapp.com/");
+    setBrowserBaseURL("https://todo-vdo-app.herokuapp.com/api/");
   }, []);
 
   function getVisibleTodo() {
