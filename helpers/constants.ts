@@ -1,6 +1,5 @@
 import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
-const { port } = getConfig();
 
 const HttpCode = {
   OK: 200,
@@ -14,6 +13,6 @@ const HttpCode = {
   INTERNAL_SERVER_ERROR: 500,
 };
 
-const BASE_URL = `http://localhost:${publicRuntimeConfig.URL_PORT}/api/`;
+let BASE_URL = `http://localhost:${publicRuntimeConfig.URL_PORT}/api/`;
 
 export { HttpCode, BASE_URL };

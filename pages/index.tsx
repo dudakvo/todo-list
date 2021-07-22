@@ -1,4 +1,6 @@
-import { useState } from "react";
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL, HttpCode } from "../helpers/constants";
 
@@ -32,19 +34,23 @@ interface IAxios {
 }
 //================================================================================
 
-axios.defaults.baseURL = BASE_URL;
+//axios.defaults.baseURL = BASE_URL;
 
 export default function Home(props: IProps) {
   const { data, port } = props;
   const [todoList, setTodoList] = useState(data);
   const [filter, setFilter] = useState("");
-
   const [isEdit, setIsEdit] = useState({
     id: "",
     todoName: "",
     body: "",
     isEdit: false,
   });
+
+  const [browserBaseURL, setBrowserBaseURL] = useState(``);
+  useEffect(() => {
+    setBrowserBaseURL("https://todo-vdo-app.herokuapp.com/");
+  }, []);
 
   function getVisibleTodo() {
     const normalizedFilter = filter.toLowerCase();
@@ -55,16 +61,19 @@ export default function Home(props: IProps) {
 
   async function onAdd(todoName: string, body: string, id?: string) {
     if (!isEdit.isEdit) {
-      const todoCreateResult = await axios.post("todo", {
+      const todoCreateResult = await axios.post(`${browserBaseURL}todo`, {
         todoName,
         body,
       });
       setTodoList((prevState) => [...prevState, todoCreateResult.data.data]);
     } else {
-      const todoEditResult = await axios.patch(`todo/${isEdit.id}`, {
-        todoName,
-        body,
-      });
+      const todoEditResult = await axios.patch(
+        `${browserBaseURL}todo/${isEdit.id}`,
+        {
+          todoName,
+          body,
+        }
+      );
       if (todoEditResult.data.code === HttpCode.OK) {
         setTodoList((prevState) =>
           prevState.map((todo) =>
@@ -93,9 +102,12 @@ export default function Home(props: IProps) {
 
   const onClickComplete = async (id: string, isComplete: boolean) => {
     try {
-      const result: IRequest = await axios.patch(`todo/${id}`, {
-        isComplete: !isComplete,
-      });
+      const result: IRequest = await axios.patch(
+        `${browserBaseURL}todo/${id}`,
+        {
+          isComplete: !isComplete,
+        }
+      );
       if (result.data.code === HttpCode.OK) {
         setTodoList((prevState) =>
           prevState.map((todo) =>
@@ -110,7 +122,9 @@ export default function Home(props: IProps) {
 
   const onDelete = async (id: string) => {
     try {
-      const result: IRequest = await axios.delete(`todo/${id}`);
+      const result: IRequest = await axios.delete(
+        `${browserBaseURL}todo/${id}`
+      );
       if (result.data.code === HttpCode.OK) {
         setTodoList((prevState) => prevState.filter((todo) => todo._id !== id));
       }
@@ -150,7 +164,9 @@ export default function Home(props: IProps) {
 
 export async function getServerSideProps() {
   try {
-    const todo: IRequest = await axios.get(`todo`);
+    const todo: IRequest = await axios.get(
+      `http://localhost:${publicRuntimeConfig.URL_PORT}/api/todo`
+    );
     const data = todo.data;
     return { props: data };
   } catch (error) {
