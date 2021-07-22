@@ -128,7 +128,7 @@ export default function Home(props: IProps) {
       isEdit: true,
     });
   };
-
+  console.log(`BROSER BASE_URL=${BASE_URL}`);
   return (
     <>
       {/* ============================================================================== */}
@@ -150,7 +150,8 @@ export default function Home(props: IProps) {
 
 export async function getServerSideProps() {
   try {
-    console.log(`PORT=${process.env.port}`);
+    console.log(`PORT=${process.env.PORT}`);
+    console.log(`SSR BASE_URL=${BASE_URL}`);
     const todo: IRequest = await axios.get(`todo`);
     const data = todo.data;
     return { props: data };
