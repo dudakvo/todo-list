@@ -24,6 +24,7 @@ interface IRequest {
 
 interface IProps {
   data: ITodoBody[];
+  port: string;
 }
 
 interface IAxios {
@@ -34,7 +35,7 @@ interface IAxios {
 axios.defaults.baseURL = BASE_URL;
 
 export default function Home(props: IProps) {
-  const { data } = props;
+  const { data, port } = props;
   const [todoList, setTodoList] = useState(data);
   const [filter, setFilter] = useState("");
 
@@ -128,7 +129,6 @@ export default function Home(props: IProps) {
       isEdit: true,
     });
   };
-  console.log(`BROSER BASE_URL=${BASE_URL}`);
   return (
     <>
       {/* ============================================================================== */}
@@ -150,8 +150,6 @@ export default function Home(props: IProps) {
 
 export async function getServerSideProps() {
   try {
-    console.log(`PORT=${process.env.PORT}`);
-    console.log(`SSR BASE_URL=${BASE_URL}`);
     const todo: IRequest = await axios.get(`todo`);
     const data = todo.data;
     return { props: data };
