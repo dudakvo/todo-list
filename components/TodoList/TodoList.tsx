@@ -30,7 +30,7 @@ export default function TodoList(props: IProps) {
           <li
             key={todo._id}
             className={
-              "w-9/12 mx-auto my-3.5 h-56 p-8 rounded-sm border-2 border-gray-100 shadow-lg"
+              "w-9/12 mx-auto my-3.5 mh-56 p-8 rounded-sm border-2 border-gray-100 shadow-lg"
             }
           >
             <div
