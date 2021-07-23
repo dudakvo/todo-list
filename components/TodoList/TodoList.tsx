@@ -40,7 +40,7 @@ export default function TodoList(props: IProps) {
                   type="checkbox"
                   name="toggle"
                   id="toggle"
-                  defaultChecked={todo.isComplete}
+                  checked={todo.isComplete}
                   onClick={() => onClickComplete(todo._id, todo.isComplete)}
                   className="toggle-checkbox absolute block w-6 h-6 rounded-full 
                  bg-white border-4 appearance-none cursor-pointer"
