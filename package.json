@@ -5,12 +5,13 @@
   "scripts": {
     "dev": "next dev ",
     "build": "next build",
-    "start": "next start -p $PORT",
+    "start": " cross-env NODE_ENV=production next start -p $PORT",
     "lint": "next lint"
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.3.3",
     "axios": "^0.21.1",
+    "cogo-toast": "^4.2.3",
     "dotenv": "^10.0.0",
     "mongoose": "^5.13.3",
     "next": "11.0.1",

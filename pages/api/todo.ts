@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import dbConnect from "../../utils/dbcConnecti.jsx";
+import dbConnect from "../../utils/dbConnect";
 import Todo from "../../model/schema/todo";
 import { HttpCode } from "../../helpers/constants";
 

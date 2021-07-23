@@ -13,6 +13,6 @@ const HttpCode = {
   INTERNAL_SERVER_ERROR: 500,
 };
 
-let BASE_URL = `http://localhost:${publicRuntimeConfig.URL_PORT}/api/`;
+const BASE_URL = `http://localhost:${publicRuntimeConfig.URL_PORT}/api/`;
 
 export { HttpCode, BASE_URL };

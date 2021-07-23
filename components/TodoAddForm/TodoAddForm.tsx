@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import cogoToast from "cogo-toast";
 
 type handleFn = (evt: React.ChangeEvent) => void;
 
 interface IProps {
-  onSubmit: (todoName: string, body: string, id?: string) => void;
+  onSubmit: (todoName: string, body: string, id?: string) => Promise<boolean>;
   edit: {
     id: string;
     todoName: string;
@@ -21,6 +22,7 @@ export default function TodoAddForm(props: IProps) {
     setTodoName(edit.todoName);
     setTodoBody(edit.body);
   }, [edit.body, edit.todoName]);
+
   const handleChange: handleFn = (e) => {
     const target = e.target as HTMLInputElement;
     switch (target.name) {
@@ -35,18 +37,19 @@ export default function TodoAddForm(props: IProps) {
     }
   };
 
-  const handleFormSubmit = (evt: React.FormEvent) => {
+  const handleFormSubmit = async (evt: React.FormEvent) => {
     evt.preventDefault();
     if (todoName === "" || todoBody === "") {
+      cogoToast.warn("fields Todo name and Todo body cannot be empty", {
+        position: "top-right",
+      });
       return;
     }
-    if (edit.isEdit) {
-      onSubmit(todoName, todoBody, edit.id);
-    } else {
-      onSubmit(todoName, todoBody);
+    // const result = await onSubmit(todoName, todoBody, edit.id);
+    if (await onSubmit(todoName, todoBody, edit.id)) {
+      setTodoBody("");
+      setTodoName("");
     }
-    setTodoBody("");
-    setTodoName("");
   };
 
   return (

@@ -2,7 +2,8 @@ import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { BASE_URL, HttpCode } from "../helpers/constants";
+import cogoToast from "cogo-toast";
+import { HttpCode } from "../helpers/constants";
 
 import TodoList from "../components/TodoList";
 import Filter from "../components/Filter";
@@ -34,10 +35,8 @@ interface IAxios {
 }
 //================================================================================
 
-//axios.defaults.baseURL = BASE_URL;
-
 export default function Home(props: IProps) {
-  const { data, port } = props;
+  const { data } = props;
   const [todoList, setTodoList] = useState(data);
   const [filter, setFilter] = useState("");
   const [isEdit, setIsEdit] = useState({
@@ -47,34 +46,53 @@ export default function Home(props: IProps) {
     isEdit: false,
   });
 
-  const [browserBaseURL, setBrowserBaseURL] = useState(``);
-  useEffect(() => {
-    setBrowserBaseURL("https://todo-vdo-app.herokuapp.com/api/");
-  }, []);
+  const [browserBaseURL, setBrowserBaseURL] = useState(
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000/api/"
+      : "https://todo-vdo-app.herokuapp.com/api/"
+  );
 
   function getVisibleTodo() {
     const normalizedFilter = filter.toLowerCase();
-    return todoList.filter((todo) =>
-      todo.todoName.toLowerCase().includes(normalizedFilter.trim())
+    if (!Array.isArray(todoList)) {
+      cogoToast.warn("invalid data", {
+        position: "top-right",
+      });
+      return [];
+    }
+    return todoList.filter(
+      (todo) =>
+        todo.todoName.toLowerCase().includes(normalizedFilter.trim()) ||
+        todo.body.toLowerCase().includes(normalizedFilter.trim())
     );
   }
 
   async function onAdd(todoName: string, body: string, id?: string) {
     if (!isEdit.isEdit) {
-      const todoCreateResult = await axios.post(`${browserBaseURL}todo`, {
-        todoName,
-        body,
-      });
-      setTodoList((prevState) => [...prevState, todoCreateResult.data.data]);
-    } else {
-      const todoEditResult = await axios.patch(
-        `${browserBaseURL}todo/${isEdit.id}`,
-        {
+      // створення нотатки
+      try {
+        const todoCreateResult = await axios.post(`${browserBaseURL}todo`, {
           todoName,
           body,
-        }
-      );
-      if (todoEditResult.data.code === HttpCode.OK) {
+        });
+        setTodoList((prevState) => [...prevState, todoCreateResult.data.data]);
+        return true;
+      } catch (error) {
+        cogoToast.warn(error.message, {
+          position: "top-right",
+        });
+        return false;
+      }
+    } else {
+      //редагування нотатки
+      try {
+        const todoEditResult = await axios.patch(
+          `${browserBaseURL}todo/${isEdit.id}`,
+          {
+            todoName,
+            body,
+          }
+        );
         setTodoList((prevState) =>
           prevState.map((todo) =>
             todo._id === id
@@ -92,6 +110,12 @@ export default function Home(props: IProps) {
           body: "",
           isEdit: false,
         });
+        return true;
+      } catch (error) {
+        cogoToast.warn(error.message, {
+          position: "top-right",
+        });
+        return false;
       }
     }
   }
@@ -116,7 +140,9 @@ export default function Home(props: IProps) {
         );
       }
     } catch (error) {
-      console.log(error.message);
+      cogoToast.warn(error.message, {
+        position: "top-right",
+      });
     }
   };
 
@@ -129,7 +155,9 @@ export default function Home(props: IProps) {
         setTodoList((prevState) => prevState.filter((todo) => todo._id !== id));
       }
     } catch (error) {
-      console.log(error.message);
+      cogoToast.warn(error.message, {
+        position: "top-right",
+      });
     }
   };
 
@@ -143,6 +171,7 @@ export default function Home(props: IProps) {
       isEdit: true,
     });
   };
+
   return (
     <>
       {/* ============================================================================== */}

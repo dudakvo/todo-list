@@ -1,9 +1,4 @@
-import React, { useState } from "react";
 import TodoCard from "../TodoCard";
-
-import axios from "axios";
-import { BASE_URL } from "../../helpers/constants";
-import todo from "../../model/schema/todo";
 
 interface ITodoCard {
   _id: string;
@@ -30,7 +25,7 @@ export default function TodoList(props: IProps) {
           <li
             key={todo._id}
             className={
-              "w-9/12 mx-auto my-3.5 mh-56 p-8 rounded-sm border-2 border-gray-100 shadow-lg"
+              "w-9/12 mx-auto my-3.5 mh-56  p-8 rounded-sm border-2 border-gray-100 shadow-lg"
             }
           >
             <div
@@ -54,7 +49,7 @@ export default function TodoList(props: IProps) {
             </div>
 
             <TodoCard todo={todo} />
-            <div className="w-3/5 mx-auto px-2 flex ">
+            <div className=" mx-auto px-2 flex ">
               <button
                 type="button"
                 className="inline-flex items-center px-2.5 py-1.5 mx-auto border border-gray-300
@@ -68,7 +63,7 @@ export default function TodoList(props: IProps) {
               </button>
               <button
                 type="button"
-                className="inline-flex items-center px-2.5 py-1.5 mx-auto border border-gray-300
+                className="inline-flex items-center px-2.5 py-1.5 mx-auto  ml-auto border border-gray-300
                shadow-sm text-xs font-medium rounded
                 text-gray-700 bg-white hover:bg-gray-50"
                 onClick={() => {

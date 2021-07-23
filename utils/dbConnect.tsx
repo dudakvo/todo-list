@@ -13,6 +13,7 @@ if ("") {
  * in development. This prevents connections growing exponentially
  * during API Route usage.
  */
+
 let cached = global.mongoose;
 
 if (!cached) {
@@ -37,6 +38,7 @@ async function dbConnect() {
       return mongoose;
     });
   }
+
   cached.conn = await cached.promise;
   return cached.conn;
 }

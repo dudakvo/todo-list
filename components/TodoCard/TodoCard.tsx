@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 interface ITodo {
   todoName: string;
   body: string;
@@ -21,7 +19,11 @@ export default function TodoCard(props: IProps) {
       >
         {todo.todoName}
       </h2>
-      <p className={todo.isComplete ? "line-through" : "" + "p-3"}>
+      <p
+        className={`${
+          todo.isComplete ? "line-through" : ""
+        } text-center p-3 overflow-x-auto`}
+      >
         {todo.body}
       </p>
     </>
