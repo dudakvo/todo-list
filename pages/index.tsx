@@ -9,6 +9,8 @@ import TodoList from "../components/TodoList";
 import Filter from "../components/Filter";
 import TodoAddForm from "../components/TodoAddForm";
 
+import { BASE_URL } from "../helpers/constants";
+
 //=================================== typescript types ===========================
 interface ITodoBody {
   _id: string;
@@ -193,9 +195,11 @@ export default function Home(props: IProps) {
 
 export async function getServerSideProps() {
   try {
-    const todo: IRequest = await axios.get(
-      `http://localhost:${publicRuntimeConfig.URL_PORT}/api/todo`
-    );
+    // const todo: IRequest = await axios.get(
+    //   `http://localhost:${publicRuntimeConfig.URL_PORT}/api/todo`
+    // );
+    console.log(BASE_URL);
+    const todo: IRequest = await axios.get(`${BASE_URL}todo`);
     const data = todo.data;
     return { props: data };
   } catch (error) {
