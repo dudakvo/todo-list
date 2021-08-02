@@ -48,11 +48,11 @@ export default function Home(props: IProps) {
     isEdit: false,
   });
 
-  const [browserBaseURL, setBrowserBaseURL] = useState(
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api/"
-      : "https://todo-vdo-app.herokuapp.com/api/"
-  );
+  // const [process.env.BASE_URL, setprocess.env.BASE_URL] = useState(
+  //   process.env.NODE_ENV === "development"
+  //     ? "http://localhost:3000/api/"
+  //     : "https://todo-vdo-app.herokuapp.com/api/"
+  // );
 
   function getVisibleTodo() {
     const normalizedFilter = filter.toLowerCase();
@@ -73,10 +73,13 @@ export default function Home(props: IProps) {
     if (!isEdit.isEdit) {
       // створення нотатки
       try {
-        const todoCreateResult = await axios.post(`${browserBaseURL}todo`, {
-          todoName,
-          body,
-        });
+        const todoCreateResult = await axios.post(
+          `${process.env.BASE_URL}todo`,
+          {
+            todoName,
+            body,
+          }
+        );
         setTodoList((prevState) => [...prevState, todoCreateResult.data.data]);
         return true;
       } catch (error) {
@@ -89,7 +92,7 @@ export default function Home(props: IProps) {
       //редагування нотатки
       try {
         const todoEditResult = await axios.patch(
-          `${browserBaseURL}todo/${isEdit.id}`,
+          `${process.env.BASE_URL}todo/${isEdit.id}`,
           {
             todoName,
             body,
@@ -129,7 +132,7 @@ export default function Home(props: IProps) {
   const onClickComplete = async (id: string, isComplete: boolean) => {
     try {
       const result: IRequest = await axios.patch(
-        `${browserBaseURL}todo/${id}`,
+        `${process.env.BASE_URL}todo/${id}`,
         {
           isComplete: !isComplete,
         }
@@ -151,7 +154,7 @@ export default function Home(props: IProps) {
   const onDelete = async (id: string) => {
     try {
       const result: IRequest = await axios.delete(
-        `${browserBaseURL}todo/${id}`
+        `${process.env.BASE_URL}todo/${id}`
       );
       if (result.data.code === HttpCode.OK) {
         setTodoList((prevState) => prevState.filter((todo) => todo._id !== id));
@@ -189,17 +192,15 @@ export default function Home(props: IProps) {
           onClickEdit={onClickEdit}
         />
       </div>
+      {console.log(`BASE_URL=${process.env.BASE_URL}`)}
     </>
   );
 }
 
 export async function getServerSideProps() {
   try {
-    // const todo: IRequest = await axios.get(
-    //   `http://localhost:${publicRuntimeConfig.URL_PORT}/api/todo`
-    // );
-    console.log(BASE_URL);
-    const todo: IRequest = await axios.get(`${BASE_URL}todo`);
+    console.log(`BASE_URL=${process.env.BASE_URL}`);
+    const todo: IRequest = await axios.get(`${process.env.BASE_URL}todo`);
     const data = todo.data;
     return { props: data };
   } catch (error) {
