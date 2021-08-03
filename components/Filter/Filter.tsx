@@ -1,7 +1,4 @@
-interface IProps {
-  handleFilter: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  filter: string;
-}
+import { IProps } from "./types";
 
 export default function Filter(props: IProps) {
   const { handleFilter, filter } = props;

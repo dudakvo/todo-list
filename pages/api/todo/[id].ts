@@ -4,27 +4,7 @@ import dbConnect from "../../../utils/dbConnect";
 import Todo from "../../../model/schema/todo";
 import { HttpCode } from "../../../helpers/constants";
 
-//================== typescript types ====================
-
-interface ITodoBody {
-  _id?: string;
-  name: string;
-  body: string;
-  iscomplete?: boolean;
-}
-
-interface IError {
-  code: number;
-  error: string;
-}
-
-interface ISuccess {
-  code: number;
-  data: ITodoBody | ITodoBody[];
-}
-type Data = ISuccess | IError;
-
-//=========================================================
+import { Data } from "../../../types/types";
 
 export default async function handler(
   req: NextApiRequest,

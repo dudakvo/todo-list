@@ -1,6 +1,3 @@
-import getConfig from "next/config";
-const { publicRuntimeConfig } = getConfig();
-
 const HttpCode = {
   OK: 200,
   CREATED: 201,
@@ -13,11 +10,4 @@ const HttpCode = {
   INTERNAL_SERVER_ERROR: 500,
 };
 
-// const BASE_URL = `http://localhost:${publicRuntimeConfig.URL_PORT}/api/`;
-
-const BASE_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3000/api/"
-    : "https://todo-vdo-app.herokuapp.com/api/";
-
-export { HttpCode, BASE_URL };
+export { HttpCode };

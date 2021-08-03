@@ -1,19 +1,5 @@
 import TodoCard from "../TodoCard";
-
-interface ITodoCard {
-  _id: string;
-  todoName: string;
-  body: string;
-  isComplete: boolean;
-  __v: number;
-}
-
-interface IProps {
-  todoArray: ITodoCard[];
-  onClickComplete: (id: string, isCompleted: boolean) => void;
-  onDelete: (id: string) => void;
-  onClickEdit: (id: string) => void;
-}
+import { IProps } from "./types";
 
 export default function TodoList(props: IProps) {
   const { todoArray, onClickComplete, onDelete, onClickEdit } = props;

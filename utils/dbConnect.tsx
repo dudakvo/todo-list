@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+import { IGlobalMongooseConnect } from "../types/types";
+declare const global: IGlobalMongooseConnect;
+
 const MONGODB_URI = process.env.URI_DB ? process.env.URI_DB : "";
 
 if ("") {

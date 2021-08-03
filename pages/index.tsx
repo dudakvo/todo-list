@@ -1,5 +1,3 @@
-import getConfig from "next/config";
-const { publicRuntimeConfig } = getConfig();
 import { useState, useEffect } from "react";
 import axios from "axios";
 import cogoToast from "cogo-toast";
@@ -8,34 +6,7 @@ import { HttpCode } from "../helpers/constants";
 import TodoList from "../components/TodoList";
 import Filter from "../components/Filter";
 import TodoAddForm from "../components/TodoAddForm";
-
-import { BASE_URL } from "../helpers/constants";
-
-//=================================== typescript types ===========================
-interface ITodoBody {
-  _id: string;
-  todoName: string;
-  body: string;
-  isComplete: boolean;
-  __v: number;
-}
-
-interface IRequest {
-  data: {
-    code: number;
-    data: ITodoBody[];
-  };
-}
-
-interface IProps {
-  data: ITodoBody[];
-  port: string;
-}
-
-interface IAxios {
-  data: IRequest;
-}
-//================================================================================
+import { IProps, IRequest } from "../types/types";
 
 export default function Home(props: IProps) {
   const { data } = props;
@@ -47,12 +18,6 @@ export default function Home(props: IProps) {
     body: "",
     isEdit: false,
   });
-
-  // const [process.env.BASE_URL, setprocess.env.BASE_URL] = useState(
-  //   process.env.NODE_ENV === "development"
-  //     ? "http://localhost:3000/api/"
-  //     : "https://todo-vdo-app.herokuapp.com/api/"
-  // );
 
   function getVisibleTodo() {
     const normalizedFilter = filter.toLowerCase();
@@ -179,7 +144,6 @@ export default function Home(props: IProps) {
 
   return (
     <>
-      {/* ============================================================================== */}
       <div className="contaier w-9/12 mx-auto my-4">
         <div className="sticky top-0 z-50 bg-white bg-opacity-100">
           <TodoAddForm onSubmit={onAdd} edit={isEdit} />
@@ -192,14 +156,12 @@ export default function Home(props: IProps) {
           onClickEdit={onClickEdit}
         />
       </div>
-      {console.log(`BASE_URL=${process.env.BASE_URL}`)}
     </>
   );
 }
 
 export async function getServerSideProps() {
   try {
-    console.log(`BASE_URL=${process.env.BASE_URL}`);
     const todo: IRequest = await axios.get(`${process.env.BASE_URL}todo`);
     const data = todo.data;
     return { props: data };

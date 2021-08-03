@@ -1,17 +1,7 @@
 import { useState, useEffect } from "react";
 import cogoToast from "cogo-toast";
 
-type handleFn = (evt: React.ChangeEvent) => void;
-
-interface IProps {
-  onSubmit: (todoName: string, body: string, id?: string) => Promise<boolean>;
-  edit: {
-    id: string;
-    todoName: string;
-    body: string;
-    isEdit: boolean;
-  };
-}
+import { handleFn, IProps } from "./types";
 
 export default function TodoAddForm(props: IProps) {
   const { onSubmit, edit } = props;
@@ -45,7 +35,7 @@ export default function TodoAddForm(props: IProps) {
       });
       return;
     }
-    // const result = await onSubmit(todoName, todoBody, edit.id);
+
     if (await onSubmit(todoName, todoBody, edit.id)) {
       setTodoBody("");
       setTodoName("");

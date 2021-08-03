@@ -1,13 +1,4 @@
-interface ITodo {
-  todoName: string;
-  body: string;
-  isComplete: boolean;
-  _id: string;
-}
-
-interface IProps {
-  todo: ITodo;
-}
+import { IProps } from "./types";
 
 export default function TodoCard(props: IProps) {
   const { todo } = props;
